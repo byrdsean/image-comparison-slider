@@ -44,12 +44,12 @@ window.addEventListener("mousedown", (e) => {
 
   //Check if the mouse position is over the anchor
   const anchorPosition = getAnchorDimensions();
-  const isMouseDown =
+  const isMouseDownOnAnchor =
     anchorPosition.minX <= mouseXPosition &&
     mouseXPosition <= anchorPosition.maxX &&
     anchorPosition.minY <= mouseYPosition &&
     mouseYPosition <= anchorPosition.maxY;
-  if (isMouseDown) {
+  if (isMouseDownOnAnchor) {
     mousePosition = { xPosition: mouseXPosition, yPosition: mouseYPosition };
   }
 });
@@ -71,6 +71,21 @@ window.addEventListener("mousemove", (e) => {
   //     Math.floor(anchorDimensions.x + anchorDimensions.width) <= Math.floor(sliderDimensions.x + sliderDimensions.width);
   // if(!isInBounds) return;
 
+  //Get the current x position of the mouse.
+  //Find the difference from when the user pressed the mouse button.
+  //Update the anchor x position based on the difference
+  const xCoordsToMoveAnchor = e.screenX - initialAnchorXPosition;
+
+  console.log({
+    initialAnchorXPosition,
+    xOffset: getOffsetX(0),
+    sliderX: getOffsetX(sliderDimensions.x),
+    clientX: e.clientX,
+    xCoordsToMoveAnchor,
+  });
+
+  anchor.style.left = `${xCoordsToMoveAnchor}px`;
+
   //Find the x coord of the anchor's center
   const anchorXMidPoint = Math.floor(
     anchorDimensions.x + anchorDimensions.width / 2
@@ -86,10 +101,4 @@ window.addEventListener("mousemove", (e) => {
   //Reset the width of the left and right image containers
   leftPane.style.width = `${percentage}%`;
   rightPane.style.width = `${100 - percentage}%`;
-
-  //Get the current x position of the mouse.
-  //Find the difference from when the user pressed the mouse button.
-  //Update the anchor x position based on the difference
-  const xCoordsToMoveAnchor = e.screenX - initialAnchorXPosition;
-  anchor.style.left = `${xCoordsToMoveAnchor}px`;
 });
