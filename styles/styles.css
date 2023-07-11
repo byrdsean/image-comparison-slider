@@ -41,6 +41,8 @@ body {
 
 #sliderAnchor {
   /* border: 1px purple solid; */
+  position: relative;
+  left: 0px;
   background-color: purple;
   width: fit-content;
   height: fit-content;
