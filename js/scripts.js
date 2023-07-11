@@ -6,6 +6,11 @@ const rightPane = document.getElementById("rightImgPane");
 const getOffsetX = (xCoordinate) => window.screenX + xCoordinate;
 const getOffsetY = (yCoordinate) => window.screenY + yCoordinate;
 
+const getInitialAnchorXPosition = () => {
+  const anchorClientRect = getAnchorDimensions();
+  return Math.floor((anchorClientRect.maxX + anchorClientRect.minX) / 2);
+};
+
 const getAnchorDimensions = () => {
   const bound = anchor.getBoundingClientRect();
   const minX = getOffsetX(bound.x);
@@ -29,7 +34,7 @@ const setLeftPangePercentage = (currentX, startingX, totalWidth) => {
   return percentage;
 };
 
-//Boolean flag to know when the user presses down on mouse
+const initialAnchorXPosition = getInitialAnchorXPosition();
 let mousePosition = null;
 
 window.addEventListener("mousedown", (e) => {
@@ -85,6 +90,6 @@ window.addEventListener("mousemove", (e) => {
   //Get the current x position of the mouse.
   //Find the difference from when the user pressed the mouse button.
   //Update the anchor x position based on the difference
-  const xCoordsToMoveAnchor = e.screenX - mousePosition.xPosition;
+  const xCoordsToMoveAnchor = e.screenX - initialAnchorXPosition;
   anchor.style.left = `${xCoordsToMoveAnchor}px`;
 });
