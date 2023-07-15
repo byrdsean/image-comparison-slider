@@ -4,28 +4,31 @@ body {
   box-sizing: border-box;
 }
 
-/* width is the width of the image */
+/* "width" is the width of the image */
 #sliderImgContainer {
   border: 1px black solid;
   width: 1024px;
   display: flex;
   justify-content: center;
+  /* border-radius: 10px; */
 }
 
 #leftImgPane {
-  border-right: 0.5px white solid;
+  border-right: 0.5px black solid;
   width: 50%;
   display: flex;
   justify-content: start;
   overflow-x: hidden;
+  /* border-radius: 10px 0 0 10px */
 }
 
 #rightImgPane {
-  border-left: 0.5px white solid;
+  border-left: 0.5px black solid;
   width: 50%;
   display: flex;
   justify-content: end;
   overflow-x: hidden;
+  /* border-radius: 0 10px 10px 0; */
 }
 
 #sliderAnchorContainer {
@@ -49,7 +52,7 @@ body {
   border-radius: 50%;
   width: 50px;
   height: 50px;
-  opacity: 50%;
+  opacity: 75%;
 }
 
 #sliderContainer {

@@ -23,7 +23,7 @@ const getAnchorDimensions = () => {
   };
 };
 
-const setLeftPangePercentage = (currentX, startingX, totalWidth) => {
+const setImagePangePercentage = (currentX, startingX, totalWidth) => {
   let percentage = (currentX - startingX) / totalWidth;
   percentage *= 100;
 
@@ -31,7 +31,14 @@ const setLeftPangePercentage = (currentX, startingX, totalWidth) => {
   if (percentage < 0) percentage = 0;
   if (100 < percentage) percentage = 100;
 
-  return percentage;
+  //Reset the width of the left and right image containers
+  leftPane.style.width = `${percentage}%`;
+  rightPane.style.width = `${100 - percentage}%`;
+};
+
+const setAnchorPosition = (currentXPosition) => {
+  const xCoordsToMoveAnchor = currentXPosition - initialAnchorXPosition;
+  anchor.style.left = `${xCoordsToMoveAnchor}px`;
 };
 
 const initialAnchorXPosition = getInitialAnchorXPosition();
@@ -64,32 +71,32 @@ window.addEventListener("mousemove", (e) => {
   const anchorDimensions = anchor.getBoundingClientRect();
   const sliderDimensions = slider.getBoundingClientRect();
 
-  //REFACTOR: need to detect boundary BEFORE updating anchor position
-  // //If the anchor is out of bounds, don't do anything
-  // const isInBounds =
-  //     Math.floor(sliderDimensions.x) <= Math.floor(anchorDimensions.x) &&
-  //     Math.floor(anchorDimensions.x + anchorDimensions.width) <= Math.floor(sliderDimensions.x + sliderDimensions.width);
-  // if(!isInBounds) return;
-
-  //Find the x coord of the anchor's center
-  const anchorXMidPoint = Math.floor(
-    anchorDimensions.x + anchorDimensions.width / 2
+  //Check if the current mouse position is within the container bounds
+  const minimumContainerX = Math.floor(getOffsetX(sliderDimensions.x));
+  const maximumContainerX = Math.floor(
+    getOffsetX(sliderDimensions.x + sliderDimensions.width)
   );
+  const inBounds =
+    minimumContainerX <= e.screenX && e.screenX <= maximumContainerX;
 
-  //Calculate how far the anchor is along the x axis as a percentage
-  const percentage = setLeftPangePercentage(
-    anchorXMidPoint,
-    sliderDimensions.x,
-    sliderDimensions.width
-  );
-
-  //Reset the width of the left and right image containers
-  leftPane.style.width = `${percentage}%`;
-  rightPane.style.width = `${100 - percentage}%`;
-
-  //Get the current x position of the mouse.
-  //Find the difference from when the user pressed the mouse button.
-  //Update the anchor x position based on the difference
-  const xCoordsToMoveAnchor = e.screenX - initialAnchorXPosition;
-  anchor.style.left = `${xCoordsToMoveAnchor}px`;
+  if (inBounds) {
+    const anchorXMidPoint = Math.floor(
+      anchorDimensions.x + anchorDimensions.width / 2
+    );
+    setImagePangePercentage(
+      getOffsetX(anchorXMidPoint),
+      minimumContainerX,
+      sliderDimensions.width
+    );
+    setAnchorPosition(e.screenX);
+  } else {
+    const currentXPosition =
+      minimumContainerX > e.screenX ? minimumContainerX : maximumContainerX;
+    setImagePangePercentage(
+      currentXPosition,
+      minimumContainerX,
+      sliderDimensions.width
+    );
+    setAnchorPosition(currentXPosition);
+  }
 });
