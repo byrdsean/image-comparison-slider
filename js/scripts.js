@@ -41,6 +41,34 @@ const setAnchorPosition = (currentXPosition) => {
   anchor.style.left = `${xCoordsToMoveAnchor}px`;
 };
 
+const setSliderWidth = () => {
+  const leftImg = leftPane.querySelector("img");
+  const rightImg = rightPane.querySelector("img");
+
+  if (!leftImg || !rightImg) {
+    console.error(
+      "ERROR: One or more of the required images has not been set."
+    );
+    return;
+  }
+
+  const leftImageObj = new Image();
+  leftImageObj.src = leftImg.src;
+
+  const righttImageObj = new Image();
+  righttImageObj.src = rightImg.src;
+
+  if (leftImageObj.width !== righttImageObj.width) {
+    slider.className = `${slider.className} error`.trim();
+    console.error(
+      "ERROR: The two images provided are different sizes. Will display error message instead."
+    );
+  } else {
+    slider.style.width = `${leftImageObj.width}px`;
+  }
+};
+
+setSliderWidth();
 const initialAnchorXPosition = getInitialAnchorXPosition();
 let mousePosition = null;
 
