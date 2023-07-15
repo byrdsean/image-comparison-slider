@@ -46,7 +46,24 @@ body {
   border-radius: 50%;
   width: 50px;
   height: 50px;
-  opacity: 75%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+#sliderAnchor .node {
+  background-color: white;
+  width: 10px;
+  height: 25px;
+  opacity: 50%;
+}
+
+#sliderAnchor .node.left {
+  border-radius: 20px 0 0 20px;
+}
+
+#sliderAnchor .node.right {
+  border-radius: 0 20px 20px 0;
 }
 
 #sliderContainer {
