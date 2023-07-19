@@ -15,6 +15,7 @@ body {
 }
 
 .img-pane {
+  border: 1px black solid;
   width: 50%;
   display: flex;
   overflow-x: hidden;
@@ -22,10 +23,14 @@ body {
 
 #leftImgPane {
   justify-content: start;
+  margin-left: 7px;
+  border-right: 0.5px black solid;
 }
 
 #rightImgPane {
   justify-content: end;
+  margin-right: 7px;
+  border-left: 0.5px black solid;
 }
 
 #sliderAnchorContainer {
