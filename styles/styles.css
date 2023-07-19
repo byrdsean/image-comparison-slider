@@ -4,27 +4,28 @@ body {
   box-sizing: border-box;
 }
 
-/* "width" is the width of the image */
+#sliderContainer {
+  width: fit-content;
+  position: relative;
+}
+
 #sliderImgContainer {
-  border: 1px black solid;
   display: flex;
   justify-content: center;
 }
 
-#leftImgPane {
-  border-right: 0.5px black solid;
+.img-pane {
   width: 50%;
   display: flex;
-  justify-content: start;
   overflow-x: hidden;
 }
 
+#leftImgPane {
+  justify-content: start;
+}
+
 #rightImgPane {
-  border-left: 0.5px black solid;
-  width: 50%;
-  display: flex;
   justify-content: end;
-  overflow-x: hidden;
 }
 
 #sliderAnchorContainer {
@@ -37,20 +38,33 @@ body {
   align-items: center;
 }
 
-#sliderAnchor {
-  position: relative;
-  left: 0px;
-  background-color: purple;
-  width: fit-content;
-  height: fit-content;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
+#rangeControl {
+  -webkit-appearance: none;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  outline: none;
 }
 
-#sliderContainer {
-  width: fit-content;
-  position: relative;
+#rangeControl::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: purple;
+  border: 5px purple solid;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+#rangeControl::-moz-range-thumb {
+  background-color: purple;
+  border: 5px purple solid;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
 }
 
 #errorContainer {
