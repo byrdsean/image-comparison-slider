@@ -1,3 +1,12 @@
+:root {
+  --black: rgba(0, 0, 0, 1);
+  --purple: rgba(128, 0, 128, 1);
+  --errorBg: rgba(0, 0, 0, 0.25);
+  --errorTxt: rgba(0, 0, 0, 0.75);
+  --errorTitleBg: rgba(0, 0, 0, 0.15);
+  --errorTitleTxt: rgba(128, 128, 128, 1);
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -21,7 +30,7 @@ body {
 }
 
 .img-pane {
-  border: 1px black solid;
+  border: 1px var(--black) solid;
   width: 50%;
   display: flex;
   overflow-x: hidden;
@@ -31,13 +40,13 @@ body {
 #leftImgPane {
   justify-content: start;
   margin-left: 7px;
-  border-right: 0.5px black solid;
+  border-right: 0.5px var(--black) solid;
 }
 
 #rightImgPane {
   justify-content: end;
   margin-right: 7px;
-  border-left: 0.5px black solid;
+  border-left: 0.5px var(--black) solid;
 }
 
 #sliderAnchorContainer {
@@ -69,7 +78,7 @@ body {
 
 #sliderContainer[vertical] .img-pane {
   display: block;
-  border: 1px black solid;
+  border: 1px var(--black) solid;
   width: 100%;
   height: 50%;
   overflow-y: hidden;
@@ -77,14 +86,14 @@ body {
 
 #sliderContainer[vertical] #leftImgPane.img-pane {
   margin: 7px 0 0 7px;
-  border-bottom: 0.5px black solid;
+  border-bottom: 0.5px var(--black) solid;
   display: flex;
   align-items: start;
 }
 
 #sliderContainer[vertical] #rightImgPane.img-pane {
   margin: 0 0 7px 7px;
-  border-top: 0.5px black solid;
+  border-top: 0.5px var(--black) solid;
   display: flex;
   align-items: end;
 }
@@ -92,8 +101,8 @@ body {
 #rangeControl::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  background-color: purple;
-  border: 5px purple solid;
+  background-color: var(--purple);
+  border: 5px var(--purple) solid;
   border-radius: 50%;
   width: 20px;
   height: 20px;
@@ -101,8 +110,8 @@ body {
 }
 
 #rangeControl::-moz-range-thumb {
-  background-color: purple;
-  border: 5px purple solid;
+  background-color: var(--purple);
+  border: 5px var(--purple) solid;
   border-radius: 50%;
   width: 20px;
   height: 20px;
@@ -115,8 +124,8 @@ body {
 }
 
 #errorContainer p {
-  background-color: rgba(0, 0, 0, 0.25);
-  color: rgba(0, 0, 0, 0.75);
+  background-color: var(--errorBg);
+  color: var(--errorTxt);
   font-family: arial, helvetica;
   margin: 0;
   height: 50px;
@@ -129,13 +138,13 @@ body {
 
 #errorContainer #errorTitle {
   font-size: 8px;
-  background-color: rgba(0, 0, 0, 0.15);
+  background-color: var(--errorTitleBg);
   padding: 5px 10px;
   border-radius: 15px 15px 0 0;
   text-transform: uppercase;
   font-family: arial, helvetica;
   font-weight: 600;
-  color: gray;
+  color: var(--errorTitleTxt);
 }
 
 #sliderContainer.error #sliderImgContainer {
