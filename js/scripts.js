@@ -40,6 +40,24 @@ window.addEventListener("load", (event) => {
       isMouseDown = false;
   });
 
+  const setResizeDimensions = (height, width) => {
+    const anchorDimensions = sliderAnchor.getBoundingClientRect();
+    if (isVertical) {
+      resizeWindow.style.height = `${height}px`;
+      sliderAnchor.style.top = `${height - anchorDimensions.height / 2}px`;
+    } else {
+      resizeWindow.style.width = `${width}px`;
+      sliderAnchor.style.left = `${width - anchorDimensions.width / 2}px`;
+    }
+  };
+
+  window.addEventListener("resize", (e) => {
+    const sliderDimensions = slider.getBoundingClientRect();
+    const middleHeight = sliderDimensions.height / 2;
+    const middleWidth = sliderDimensions.width / 2;
+    setResizeDimensions(middleHeight, middleWidth);
+  });
+
   const getSliderStyleValues = () => {
     const sliderStyles = getComputedStyle(slider);
     return {
@@ -79,14 +97,7 @@ window.addEventListener("load", (event) => {
     if (sliderDimensions.height - heightBorder < yCoord)
       yCoord = sliderDimensions.height - heightBorder;
 
-    const anchorDimensions = sliderAnchor.getBoundingClientRect();
-    if (isVertical) {
-      resizeWindow.style.height = `${yCoord}px`;
-      sliderAnchor.style.top = `${yCoord - anchorDimensions.height / 2}px`;
-    } else {
-      resizeWindow.style.width = `${xCoord}px`;
-      sliderAnchor.style.left = `${xCoord - anchorDimensions.width / 2}px`;
-    }
+    setResizeDimensions(yCoord, xCoord);
   };
 
   const showSlider = () => {
