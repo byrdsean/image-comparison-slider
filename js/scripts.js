@@ -5,37 +5,35 @@ window.addEventListener("load", (event) => {
       leftPane: document.getElementById("leftImgPane"),
       rightPane: document.getElementById("rightImgPane"),
       rangeControl: document.getElementById("rangeControl"),
+      resizeWindow: document
+        .getElementById("leftImgPane")
+        .getElementsByClassName("window")[0],
     };
   };
 
-  const { slider, leftPane, rightPane, rangeControl } = getSliderDomObjects();
-
+  const { slider, leftPane, rightPane, rangeControl, resizeWindow } =
+    getSliderDomObjects();
   const isVertical = slider.hasAttribute("vertical");
-  const showSlider = () => slider.classList.add("show");
 
-  //Reset the width of the left and right image containers
-  rangeControl.addEventListener("input", (e) => {
-    const property = isVertical ? "height" : "width";
-    leftPane.style[property] = `${e.target.value}%`;
-    rightPane.style[property] = `${100 - e.target.value}%`;
+  const setVerticalRangeWidth = () => {
+    if (!isVertical) return;
+    const dimensions = slider.getBoundingClientRect();
+    rangeControl.style.width = `${dimensions.height}px`;
+  };
+
+  window.addEventListener("resize", (e) => {
+    setVerticalRangeWidth();
   });
 
-  const setSliderDimensions = (height, width) => {
-    const separationWidth = 1;
-    const margin = 7;
-    const extraSpace = 2 * margin + 2 * separationWidth;
+  const showSlider = () => {
+    slider.classList.add("show");
+    setVerticalRangeWidth();
+  };
 
-    slider.style.height = `${height + extraSpace}px`;
-    slider.style.width = `${width + extraSpace}px`;
-
-    if (isVertical) {
-      slider.style.height = `${height}px`;
-      rangeControl.style.width = `${height + extraSpace}px`;
-
-      const imgContainer = document.getElementById("sliderImgContainer");
-      imgContainer.style.height = `${height - separationWidth}px`;
-      imgContainer.style.width = `${width}px`;
-    }
+  const setError = (errorMessage) => {
+    showSlider();
+    slider.classList.add("error");
+    console.error(errorMessage);
   };
 
   const getImage = (source) => {
@@ -44,11 +42,11 @@ window.addEventListener("load", (event) => {
     return img;
   };
 
-  const setError = (errorMessage) => {
-    slider.classList.add("error");
-    console.error(errorMessage);
-    showSlider();
-  };
+  //Reset the width of the left and right image containers
+  rangeControl.addEventListener("input", (e) => {
+    const property = isVertical ? "height" : "width";
+    resizeWindow.style[property] = `${e.target.value}%`;
+  });
 
   const displaySlider = () => {
     const leftImg = leftPane.querySelector("img");
@@ -64,7 +62,6 @@ window.addEventListener("load", (event) => {
     const isHeightEqual = leftImageSrc.height === rightImageSrc.height;
     const isWidthEqual = leftImageSrc.width === rightImageSrc.width;
     if (isHeightEqual && isWidthEqual) {
-      setSliderDimensions(leftImageSrc.height, leftImageSrc.width);
       showSlider();
     } else {
       setError(
