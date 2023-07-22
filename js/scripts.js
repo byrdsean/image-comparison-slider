@@ -33,18 +33,6 @@ window.addEventListener("load", (event) => {
     updateResizeWindow(e.clientX, e.clientY);
   });
 
-  //If the user drags anchor off slider, set isMouseDown = false;
-  window.addEventListener("mousemove", (e) => {
-    const sliderDimensions = slider.getBoundingClientRect();
-    if (e.clientX - sliderDimensions.x < 0) isMouseDown = false;
-    if (e.clientX - (sliderDimensions.x + sliderDimensions.width) > 0)
-      isMouseDown = false;
-
-    if (e.clientY - sliderDimensions.y < 0) isMouseDown = false;
-    if (e.clientY - (sliderDimensions.y + sliderDimensions.height) > 0)
-      isMouseDown = false;
-  });
-
   const setResizeDimensions = (height, width) => {
     const anchorDimensions = sliderAnchor.getBoundingClientRect();
     if (isVertical) {
@@ -66,6 +54,33 @@ window.addEventListener("load", (event) => {
 
   window.addEventListener("resize", (e) => {
     resetResizeDimensions();
+  });
+
+  window.addEventListener("mouseup", (e) => {
+    isMouseDown = false;
+  });
+
+  window.addEventListener("mousemove", (e) => {
+    if (!isMouseDown) return;
+
+    const sliderDimensions = slider.getBoundingClientRect();
+    const styles = getSliderStyleValues();
+
+    if (isVertical) {
+      if (e.clientY < sliderDimensions.y) {
+        setResizeDimensions(0, e.clientY);
+      } else if (e.clientY > sliderDimensions.y + sliderDimensions.height) {
+        const heightBorder = styles.borderTopWidth + styles.borderBottomWidth;
+        setResizeDimensions(sliderDimensions.height - heightBorder, e.clientX);
+      }
+    } else {
+      if (e.clientX < sliderDimensions.x) {
+        setResizeDimensions(e.clientY, 0);
+      } else if (e.clientX > sliderDimensions.x + sliderDimensions.width) {
+        const widthBorder = styles.borderLeftWidth + styles.borderRightWidth;
+        setResizeDimensions(e.clientY, sliderDimensions.width - widthBorder);
+      }
+    }
   });
 
   const getSliderStyleValues = () => {
