@@ -26,16 +26,6 @@
       cupiditate eaque laudantium non commodi autem dolor quasi?
     </p>
     <div id="sliderContainer">
-      <div id="sliderImgContainer">
-        <div id="leftImgPane" class="img-pane">
-          <img src="images/dbz.jpg" alt="image 1" />
-          <!-- <img src="images/lion.jpg" alt="image 1" /> -->
-        </div>
-        <div id="rightImgPane" class="img-pane">
-          <img src="images/dbz_gray.jpg" alt="image 2" />
-          <!-- <img src="images/lion_gray.jpg" alt="image 2" /> -->
-        </div>
-      </div>
       <div id="sliderAnchorContainer">
         <input
           type="range"
@@ -45,6 +35,18 @@
           id="rangeControl"
           step="0.1"
         />
+      </div>
+      <div id="sliderImgContainer">
+        <div id="leftImgPane" class="img-pane">
+          <div class="window">
+            <img src="images/dbz.jpg" alt="image 1" />
+            <!-- <img src="images/lion.jpg" alt="image 1" />   -->
+          </div>
+        </div>
+        <div id="rightImgPane" class="img-pane">
+          <img src="images/dbz_gray.jpg" alt="image 2" />
+          <!-- <img src="images/lion_gray.jpg" alt="image 2" /> -->
+        </div>
       </div>
       <div id="errorContainer">
         <div id="errorTitle">Image Comparison Slider</div>
