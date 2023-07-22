@@ -87,39 +87,23 @@ body {
   align-items: center;
 }
 
-#rangeControl {
-  -webkit-appearance: none;
-  width: 100%;
-  height: fit-content;
-  padding: 0;
-  margin: 0;
-  background: transparent;
-  /* background: rgba(111, 14, 14, 0.5); */
-  outline: none;
+#sliderAnchor {
+  background-color: transparent;
+  position: absolute;
 }
 
-#rangeControl::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  background-color: var(--purple);
+#sliderAnchorButton {
+  display: block;
+  position: relative;
+  max-width: 50px;
+  min-width: 50px;
+  max-height: 50px;
+  min-height: 50px;
+  box-sizing: border-box;
   border: 5px var(--white) solid;
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  cursor: pointer;
-}
-
-#rangeControl::-moz-range-thumb {
   background-color: var(--purple);
-  border: 5px var(--white) solid;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
   cursor: pointer;
-}
-
-#sliderContainer[vertical] #rangeControl {
-  transform: rotate(90deg);
 }
 
 #errorContainer {

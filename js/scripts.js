@@ -4,30 +4,93 @@ window.addEventListener("load", (event) => {
       slider: document.getElementById("sliderContainer"),
       leftPane: document.getElementById("leftImgPane"),
       rightPane: document.getElementById("rightImgPane"),
-      rangeControl: document.getElementById("rangeControl"),
+      sliderAnchor: document.getElementById("sliderAnchor"),
       resizeWindow: document
         .getElementById("leftImgPane")
         .getElementsByClassName("window")[0],
     };
   };
 
-  const { slider, leftPane, rightPane, rangeControl, resizeWindow } =
+  const { slider, leftPane, rightPane, sliderAnchor, resizeWindow } =
     getSliderDomObjects();
   const isVertical = slider.hasAttribute("vertical");
 
-  const setVerticalRangeWidth = () => {
-    if (!isVertical) return;
-    const dimensions = slider.getBoundingClientRect();
-    rangeControl.style.width = `${dimensions.height}px`;
+  let isMouseDown = false;
+  slider.addEventListener("mousedown", (e) => {
+    isMouseDown = true;
+    updateResizeWindow(e.clientX, e.clientY);
+  });
+  slider.addEventListener("mouseup", (e) => {
+    isMouseDown = false;
+  });
+
+  slider.addEventListener("mousemove", (e) => {
+    updateResizeWindow(e.clientX, e.clientY);
+  });
+
+  //If the user drags anchor off slider, set isMouseDown = false;
+  window.addEventListener("mousemove", (e) => {
+    const sliderDimensions = slider.getBoundingClientRect();
+    if (e.clientX - sliderDimensions.x < 0) isMouseDown = false;
+    if (e.clientX - (sliderDimensions.x + sliderDimensions.width) > 0)
+      isMouseDown = false;
+
+    if (e.clientY - sliderDimensions.y < 0) isMouseDown = false;
+    if (e.clientY - (sliderDimensions.y + sliderDimensions.height) > 0)
+      isMouseDown = false;
+  });
+
+  const getSliderStyleValues = () => {
+    const sliderStyles = getComputedStyle(slider);
+    return {
+      borderTopWidth: +sliderStyles
+        .getPropertyValue("border-top-width")
+        .replace("px", ""),
+      borderRightWidth: +sliderStyles
+        .getPropertyValue("border-right-width")
+        .replace("px", ""),
+      borderBottomWidth: +sliderStyles
+        .getPropertyValue("border-bottom-width")
+        .replace("px", ""),
+      borderLeftWidth: +sliderStyles
+        .getPropertyValue("border-left-width")
+        .replace("px", ""),
+    };
   };
 
-  window.addEventListener("resize", (e) => {
-    setVerticalRangeWidth();
-  });
+  const updateResizeWindow = (clientX, clientY) => {
+    if (!isMouseDown) return;
+
+    const sliderStyleVals = getSliderStyleValues();
+    const heightBorder =
+      sliderStyleVals.borderTopWidth + sliderStyleVals.borderBottomWidth;
+    const widthBorder =
+      sliderStyleVals.borderLeftWidth + sliderStyleVals.borderRightWidth;
+
+    const sliderDimensions = slider.getBoundingClientRect();
+    let xCoord = clientX - sliderDimensions.x;
+    let yCoord = clientY - sliderDimensions.y;
+
+    if (xCoord < 0) xCoord = 0;
+    if (sliderDimensions.width - widthBorder < xCoord)
+      xCoord = sliderDimensions.width - widthBorder;
+
+    if (yCoord < 0) yCoord = 0;
+    if (sliderDimensions.height - heightBorder < yCoord)
+      yCoord = sliderDimensions.height - heightBorder;
+
+    const anchorDimensions = sliderAnchor.getBoundingClientRect();
+    if (isVertical) {
+      resizeWindow.style.height = `${yCoord}px`;
+      sliderAnchor.style.top = `${yCoord - anchorDimensions.height / 2}px`;
+    } else {
+      resizeWindow.style.width = `${xCoord}px`;
+      sliderAnchor.style.left = `${xCoord - anchorDimensions.width / 2}px`;
+    }
+  };
 
   const showSlider = () => {
     slider.classList.add("show");
-    setVerticalRangeWidth();
   };
 
   const setError = (errorMessage) => {
@@ -41,12 +104,6 @@ window.addEventListener("load", (event) => {
     img.src = source;
     return img;
   };
-
-  //Reset the width of the left and right image containers
-  rangeControl.addEventListener("input", (e) => {
-    const property = isVertical ? "height" : "width";
-    resizeWindow.style[property] = `${e.target.value}%`;
-  });
 
   const displaySlider = () => {
     const leftImg = leftPane.querySelector("img");
