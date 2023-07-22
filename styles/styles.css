@@ -21,6 +21,7 @@ body {
   position: relative;
   width: fit-content;
   border: 1px var(--black) solid;
+  user-select: none;
 }
 
 #sliderContainer.show {
