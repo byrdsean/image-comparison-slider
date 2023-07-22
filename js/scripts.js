@@ -8,22 +8,27 @@ window.addEventListener("load", (event) => {
       resizeWindow: document
         .getElementById("leftImgPane")
         .getElementsByClassName("window")[0],
+      resetBtn: document.getElementById("sliderResetBtn"),
     };
   };
 
-  const { slider, leftPane, rightPane, sliderAnchor, resizeWindow } =
+  const { slider, leftPane, rightPane, sliderAnchor, resizeWindow, resetBtn } =
     getSliderDomObjects();
   const isVertical = slider.hasAttribute("vertical");
 
   let isMouseDown = false;
   slider.addEventListener("mousedown", (e) => {
     isMouseDown = true;
-    updateResizeWindow(e.clientX, e.clientY);
+
+    if (e.target.id === resetBtn.id) {
+      resetResizeDimensions();
+    } else {
+      updateResizeWindow(e.clientX, e.clientY);
+    }
   });
   slider.addEventListener("mouseup", (e) => {
     isMouseDown = false;
   });
-
   slider.addEventListener("mousemove", (e) => {
     updateResizeWindow(e.clientX, e.clientY);
   });
@@ -51,11 +56,16 @@ window.addEventListener("load", (event) => {
     }
   };
 
-  window.addEventListener("resize", (e) => {
+  const resetResizeDimensions = () => {
     const sliderDimensions = slider.getBoundingClientRect();
     const middleHeight = sliderDimensions.height / 2;
     const middleWidth = sliderDimensions.width / 2;
     setResizeDimensions(middleHeight, middleWidth);
+    resetBtn.classList.remove("show");
+  };
+
+  window.addEventListener("resize", (e) => {
+    resetResizeDimensions();
   });
 
   const getSliderStyleValues = () => {
@@ -98,6 +108,7 @@ window.addEventListener("load", (event) => {
       yCoord = sliderDimensions.height - heightBorder;
 
     setResizeDimensions(yCoord, xCoord);
+    resetBtn.classList.add("show");
   };
 
   const showSlider = () => {
