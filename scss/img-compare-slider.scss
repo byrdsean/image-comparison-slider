@@ -1,0 +1,187 @@
+:root {
+  --black: rgba(0, 0, 0, 1);
+  --blue: rgba(0, 0, 255, 1);
+  --gray: rgba(127, 127, 127, 1);
+  --white: rgba(255, 255, 255, 1);
+  --purple: rgba(128, 0, 128, 1);
+  --errorBg: rgba(0, 0, 0, 0.25);
+  --errorTxt: rgba(0, 0, 0, 0.75);
+  --errorTitleBg: rgba(0, 0, 0, 0.15);
+  --errorTitleTxt: rgba(128, 128, 128, 1);
+}
+
+@keyframes pulsateButton {
+  0% {
+    background-color: var(--blue);
+  }
+  50% {
+    background-color: var(--gray);
+  }
+  100% {
+    background-color: var(--blue);
+  }
+}
+
+.sliderContainer {
+  display: none;
+  position: relative;
+  width: fit-content;
+  border: 1px var(--black) solid;
+  user-select: none;
+
+  &.show {
+    display: block;
+  }
+
+  .sliderImgContainer {
+    position: relative;
+    z-index: 0;
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .img-pane:first-of-type {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+
+      .window {
+        position: relative;
+        overflow: hidden;
+        border-right: 1px solid var(--black);
+        border-bottom: none;
+        width: 50%; /*adjust for width scroll*/
+        height: 100%;
+
+        img {
+          position: absolute;
+          width: fit-content;
+          height: 100%;
+        }
+      }
+    }
+  }
+
+  &[vertical] {
+    .sliderImgContainer {
+      .img-pane:first-of-type {
+        .window {
+          position: relative;
+          overflow: hidden;
+          border-right: none;
+          border-bottom: 1px solid var(--black);
+          width: 100%;
+          height: 50%; /*adjust for height scroll*/
+
+          img {
+            position: absolute;
+            width: 100%;
+            height: fit-content;
+          }
+        }
+      }
+    }
+  }
+
+  .sliderAnchorContainer {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .sliderAnchor {
+      background-color: transparent;
+      position: absolute;
+
+      .sliderAnchorButton {
+        display: block;
+        position: relative;
+        max-width: 50px;
+        min-width: 50px;
+        max-height: 50px;
+        min-height: 50px;
+        box-sizing: border-box;
+        border: 5px var(--white) solid;
+        border-radius: 50%;
+        background-color: var(--purple);
+        cursor: pointer;
+      }
+    }
+  }
+
+  .sliderReset {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: end;
+
+    .sliderResetBtn {
+      display: none;
+      background-color: var(--blue);
+      color: var(--white);
+      border: 2px solid var(--white);
+      border-radius: 5px;
+      width: 75px;
+      height: 25px;
+      margin: 5px;
+      animation: pulsateButton 3s infinite;
+
+      &.show {
+        display: block;
+      }
+    }
+  }
+
+  .errorContainer {
+    display: none;
+    width: 250px;
+
+    p {
+      background-color: var(--errorBg);
+      color: var(--errorTxt);
+      font-family: arial, helvetica;
+      margin: 0;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 0 0 15px 15px;
+      font-size: 12px;
+    }
+
+    .errorTitle {
+      font-size: 8px;
+      background-color: var(--errorTitleBg);
+      padding: 5px 10px;
+      border-radius: 15px 15px 0 0;
+      text-transform: uppercase;
+      font-family: arial, helvetica;
+      font-weight: 600;
+      color: var(--errorTitleTxt);
+    }
+  }
+
+  &.error {
+    border: none;
+
+    .sliderImgContainer {
+      display: none;
+    }
+
+    .sliderAnchorContainer {
+      display: none;
+    }
+
+    .errorContainer {
+      display: block;
+    }
+  }
+}
