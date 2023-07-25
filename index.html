@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="styles/styles.css" />
+    <link rel="stylesheet" href="styles/img-compare-slider.css" />
   </head>
   <body>
     <p>
@@ -26,31 +27,36 @@
       cupiditate eaque laudantium non commodi autem dolor quasi?
     </p>
     <div style="margin: auto; width: fit-content">
-      <div id="sliderContainer">
-        <div id="sliderAnchorContainer">
-          <div id="sliderAnchor">
-            <div id="sliderAnchorButton"></div>
+      <!-- <div class="sliderContainer">
+        <div class="sliderAnchorContainer">
+          <div class="sliderAnchor">
+            <div class="sliderAnchorButton"></div>
           </div>
         </div>
-        <div id="sliderReset">
-          <button id="sliderResetBtn">reset</button>
+        <div class="sliderReset">
+          <button class="sliderResetBtn">reset</button>
         </div>
-        <div id="sliderImgContainer">
-          <div id="leftImgPane" class="img-pane">
+        <div class="sliderImgContainer">
+          <div class="img-pane left">
             <div class="window">
               <img src="images/dbz.jpg" alt="image 1" />
-              <!-- <img src="images/lion.jpg" alt="image 1" />   -->
             </div>
           </div>
-          <div id="rightImgPane" class="img-pane">
+          <div class="img-pane right">
             <img src="images/dbz_gray.jpg" alt="image 2" />
-            <!-- <img src="images/lion_gray.jpg" alt="image 2" /> -->
           </div>
         </div>
-        <div id="errorContainer">
-          <div id="errorTitle">Image Comparison Slider</div>
+        <div class="errorContainer">
+          <div class="errorTitle">Image Comparison Slider</div>
           <p>Unable to load data</p>
         </div>
+      </div> -->
+
+      <div class="img-compare-slider" vertical>
+        <img src="images/dbz.jpg" alt="image 1" />
+        <img src="images/dbz_gray.jpg" alt="image 2" />
+        <!-- <img src="images/lion.jpg" alt="image 1" /> -->
+        <!-- <img src="images/lion_gray.jpg" alt="image 2" /> -->
       </div>
     </div>
     <p>
@@ -71,6 +77,6 @@
       excepturi praesentium quod deserunt eos ut. Sint rem maxime quibusdam
       aperiam unde quod.
     </p>
-    <script type="text/javascript" src="js/scripts.js"></script>
+    <script type="text/javascript" src="js/image-compare-slider.js"></script>
   </body>
 </html>
