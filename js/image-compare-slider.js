@@ -1,4 +1,11 @@
 window.addEventListener("load", (event) => {
+  const messages = {
+    invalidImgCount:
+      "Incorrect number of images provided. Two images are required.",
+    differentImgSize:
+      "The two images provided are different sizes. Will display error message instead.",
+  };
+
   const buildDom = (tag, classes, children) => {
     const domElement = document.createElement(tag);
     classes?.forEach((className) => {
@@ -43,6 +50,22 @@ window.addEventListener("load", (event) => {
     return buildDom("div", ["sliderReset"], [resetBtn]);
   };
 
+  const showSlider = (slider) => {
+    slider.classList.add("show");
+  };
+
+  const setError = (slider, errorMessage) => {
+    showSlider(slider);
+    slider.classList.add("error");
+    console.error(errorMessage);
+  };
+
+  const getImage = (source) => {
+    const img = new Image();
+    img.src = source;
+    return img;
+  };
+
   const buildSliderDom = (imgSlider) => {
     const images = Array.from(imgSlider.querySelectorAll("img"));
 
@@ -52,46 +75,52 @@ window.addEventListener("load", (event) => {
     }
 
     imgSlider.classList.add("sliderContainer");
-    imgSlider.appendChild(buildAnchorDom());
-    imgSlider.appendChild(buildSliderReset());
-    imgSlider.appendChild(buildImageContainer(images[0], images[1]));
     imgSlider.appendChild(buildErrorContainer());
+
+    if (images?.length === 2) {
+      imgSlider.appendChild(buildAnchorDom());
+      imgSlider.appendChild(buildSliderReset());
+      imgSlider.appendChild(buildImageContainer(images[0], images[1]));
+    } else {
+      setError(imgSlider, messages.invalidImgCount);
+    }
   };
 
-  const imageCompareSliders =
-    document.getElementsByClassName("img-compare-slider");
-  Array.from(imageCompareSliders).forEach((slider) => {
-    buildSliderDom(slider);
+  const getByClass = (parent, className) => {
+    return parent.getElementsByClassName(className)[0];
+  };
 
-    const getSliderDomObjects = () => {
-      return {
-        leftPane: slider.getElementsByClassName("img-pane left")[0],
-        rightPane: slider.getElementsByClassName("img-pane right")[0],
-        sliderAnchor: slider.getElementsByClassName("sliderAnchor")[0],
-        resizeWindow: slider
-          .getElementsByClassName("img-pane left")[0]
-          .getElementsByClassName("window")[0],
-        resetBtn: slider.getElementsByClassName("sliderResetBtn")[0],
-      };
+  const getSliderDomObjects = (slider) => {
+    const leftPane = getByClass(slider, "img-pane left");
+    return {
+      leftPane,
+      rightPane: getByClass(slider, "img-pane right"),
+      sliderAnchor: getByClass(slider, "sliderAnchor"),
+      resizeWindow: getByClass(leftPane, "window"),
+      resetBtn: getByClass(slider, "sliderResetBtn"),
     };
+  };
 
+  const createSlider = (slider) => {
     const { leftPane, rightPane, sliderAnchor, resizeWindow, resetBtn } =
-      getSliderDomObjects();
+      getSliderDomObjects(slider);
     const isVertical = slider.hasAttribute("vertical");
 
     let isMouseDown = false;
     slider.addEventListener("mousedown", (e) => {
       isMouseDown = true;
 
-      if (e.target.id === resetBtn.id) {
+      if (e.target === resetBtn) {
         resetResizeDimensions();
       } else {
         updateResizeWindow(e.clientX, e.clientY);
       }
     });
+
     slider.addEventListener("mouseup", (e) => {
       isMouseDown = false;
     });
+
     slider.addEventListener("mousemove", (e) => {
       updateResizeWindow(e.clientX, e.clientY);
     });
@@ -192,27 +221,11 @@ window.addEventListener("load", (event) => {
       resetBtn.classList.add("show");
     };
 
-    const showSlider = () => {
-      slider.classList.add("show");
-    };
-
-    const setError = (errorMessage) => {
-      showSlider();
-      slider.classList.add("error");
-      console.error(errorMessage);
-    };
-
-    const getImage = (source) => {
-      const img = new Image();
-      img.src = source;
-      return img;
-    };
-
     const displaySlider = () => {
       const leftImg = leftPane.querySelector("img");
       const rightImg = rightPane.querySelector("img");
       if (!leftImg || !rightImg) {
-        setError("One or more of the required images has not been set.");
+        setError(slider, messages.invalidImgCount);
         return;
       }
 
@@ -222,14 +235,23 @@ window.addEventListener("load", (event) => {
       const isHeightEqual = leftImageSrc.height === rightImageSrc.height;
       const isWidthEqual = leftImageSrc.width === rightImageSrc.width;
       if (isHeightEqual && isWidthEqual) {
-        showSlider();
+        showSlider(slider);
       } else {
-        setError(
-          "The two images provided are different sizes. Will display error message instead."
-        );
+        setError(slider, messages.differentImgSize);
       }
     };
 
     displaySlider();
+  };
+
+  const imageCompareSliders =
+    document.getElementsByClassName("img-compare-slider");
+  Array.from(imageCompareSliders).forEach((slider) => {
+    buildSliderDom(slider);
+
+    const isError = slider.classList.contains("error");
+    if (!isError) {
+      createSlider(slider);
+    }
   });
 });
