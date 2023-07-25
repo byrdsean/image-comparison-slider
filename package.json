@@ -1,0 +1,28 @@
+{
+  "name": "image-comparison-slider",
+  "version": "1.0.0",
+  "description": "Vanilla Javascript implementation of an image comparison slider.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node-sass scss/img-compare-slider.scss styles/img-compare-slider.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/byrdsean/image-comparison-slider.git"
+  },
+  "keywords": [
+    "image",
+    "comparison",
+    "slider"
+  ],
+  "author": "Sean Byrd",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/byrdsean/image-comparison-slider/issues"
+  },
+  "homepage": "https://github.com/byrdsean/image-comparison-slider#readme",
+  "dependencies": {
+    "node-sass": "^9.0.0"
+  }
+}
