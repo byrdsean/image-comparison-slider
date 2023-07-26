@@ -4,8 +4,10 @@
   "description": "Vanilla Javascript implementation of an image comparison slider.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node-sass scss/img-compare-slider.scss styles/img-compare-slider.css"
+    "compile-scss": "node-sass scss/img-compare-slider.scss styles/img-compare-slider.css",
+    "minify-css": "node-sass scss/img-compare-slider.scss dest/img-compare-slider.min.css --output-style compressed",
+    "minify-js": "uglifyjs js/image-compare-slider.js --mangle --compress --output dest/img-compare-slider.min.js",
+    "build": "npm run compile-scss && npm run minify-css && npm run minify-js"
   },
   "repository": {
     "type": "git",
